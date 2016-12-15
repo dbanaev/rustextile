@@ -1,0 +1,27 @@
+_sip_main:
+    resource: "@SIPResourceBundle/Controller/MainController.php"
+    type:     annotation
+
+_sip_events:
+    resource: "@SIPResourceBundle/Controller/EventsController.php"
+    type:     annotation
+
+_sip_designers:
+    resource: "@SIPResourceBundle/Controller/DesignersController.php"
+    type:     annotation
+
+_sip_manufacturers:
+    resource: "@SIPResourceBundle/Controller/ManufacturersController.php"
+    type:     annotation
+
+_sip_news:
+    resource: "@SIPResourceBundle/Controller/NewsController.php"
+    type:     annotation
+
+_sip_publishing:
+    resource: "@SIPResourceBundle/Controller/PublishingController.php"
+    type:     annotation
+
+_sip_brands:
+    resource: "@SIPResourceBundle/Controller/BrandsController.php"
+    type:     annotation

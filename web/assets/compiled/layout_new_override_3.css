@@ -1,0 +1,88 @@
+.fz_36 a {
+    text-decoration: none;
+    color: #000;
+}
+
+.fz_36 a:hover {
+    text-decoration: underline;
+}
+
+.main_content.posts.cols .breadcumbs li a {
+    text-decoration: none;
+    color:#808285;
+}
+
+.main_content.posts.cols .breadcumbs li a:hover {
+    text-decoration: underline;
+}
+
+.designer_name a {
+    color: #000;
+    text-decoration: none;
+}
+
+.designer_contacts {
+    width: 310px;
+}
+
+.designer_contacts a {
+    color: #000;
+    text-decoration: none;
+}
+
+.designer_contacts a:hover {
+    text-decoration: underline;
+}
+
+.designer_contacts p {
+    margin-top: 5px;
+}
+.main_content h1.date-title {
+    cursor: pointer;
+}
+
+.main_content.posts.cols .page_title {
+    padding: 0px;
+}
+
+.fr.w_330.pl_16.tablet_wide a.fz_20 {
+    color: #000;
+    text-decoration: none;
+}
+
+.base {
+    padding-bottom: 0px;
+}
+.section_inner.clearfix .comments {
+    padding-bottom: 250px;
+}
+@media only screen and (max-width: 719px) {
+    .section_inner.clearfix .comments {
+        padding-bottom: 0px;
+    }
+}
+
+#ytWidget .yt-wrapper {
+    float: left;
+}
+
+#ytWidget #yt-widget .yt-button {
+    height: 22px;
+    padding-bottom: 0;
+    padding-top: 0;
+    line-height: 22px;
+}
+
+#ytWidget #yt-widget .yt-button__icon {
+    margin-top: -5px;
+}
+
+#ytWidget #yt-widget .yt-wrapper_align_right {
+    margin-left: 5px;
+}
+
+.main_content.posts.cols .col-1 .search form { font-size: 0; }
+
+#temp-load {
+    display: none;
+}

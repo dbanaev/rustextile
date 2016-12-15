@@ -1,0 +1,161 @@
+{% extends "SIPResourceBundle::layout.html.twig" %}
+{% block metatags %}
+    {% set meta = get_meta_data('designers') %}
+    {% if meta %}
+        {% if meta.metaTitle %}<title>{{ meta.metaTitle }}</title>{% endif %}
+        {% if meta.metaKeywords %}<meta content="{{ meta.metaKeywords }}" name="keywords">{% endif %}
+        {% if meta.metaDescription %}<meta content="{{ meta.metaDescription }}" name="description">{% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="main_content posts cols">
+        <div class="section_inner">
+            <ul class="breadcumbs">
+                <li>
+                    <a href="{{ path('sip_resource_main') }}">Главная</a>
+                </li>
+                <li>
+                    <a href="{{ path('sip_resource_designers') }}">Дизайнеры</a>
+                </li>
+                {% if tag is defined %}
+                    <li>
+                        <a href="{{ path('sip_resource_designers', {'tag': tag.tag.slug}) }}">{{ tag.name }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="page_title">
+                <h1 class="fz_36">Дизайнеры</h1>
+            </div>
+            <div class="adv_search_form">
+                <form action="{{ path(app.request.get('_route')) }}" method="GET">
+                    <div class="form_cell search_cell search_cell_v2">
+                        <div class="input_w">
+                            <input id="search_input" class="f_input f_input_v1" type="text" name="search" value="{{ app.request.get('search') }}">
+                        </div>
+                        <button class="btn_v1 search_btn"><span class="mb">Поиск</span></button>
+                    </div>
+                </form>
+            </div>
+            <div class="mason_holder">
+                <div class="mason" id="designers">
+                    <div class="mason_sizer"></div>
+                    {% for designer in designers %}
+                        <div class="mason_box">
+                            <div class="designer_item">
+                                <div class="img_w">
+                                    <a href="{{ path('sip_resource_designer', {'slug': designer.slug}) }}">
+                                        <img src="{% path designer.image, 'big' %}">
+                                    </a>
+                                </div>
+                                <div class="designer_name">
+                                    <a href="{{ path('sip_resource_designer', {'slug': designer.slug}) }}">{{ designer.h1 }}</a>
+                                </div>
+                                <div class="designer_info">
+                                    <p>
+                                        {{ designer.brief|raw }}<a href="{{ path('sip_resource_designer', {'slug': designer.slug}) }}" class="gl_link more_link">>>></a>
+                                    </p>
+                                </div>
+                                <div class="designer_info">
+                                    {% if designer.site %}
+                                        <div class="designer_info_l"><a target="_blank" href="{{ designer.getSite(true) }}" class="gl_link world_link"><img src="{{ asset('bundles/sipresource/img/world.png') }}"/></a></div>
+                                    {% endif %}
+                                    {% if designer.instagram %}
+                                        <div class="designer_info_r"><a target="_blank" href="{{ designer.instagram }}" class="gl_link inst_link"><img src="{{ asset('bundles/sipresource/img/inst.png') }}"/></a></div>
+                                    {% endif %}
+                                    {% if designer.pinterest %}
+                                        <div class="designer_info_r"><a target="_blank" href="{{ designer.pinterest }}" class="gl_link inst_link"><img src="{{ asset('bundles/sipresource/img/pint.png') }}"></a></div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="designer_tmpl">
+        <div class="mason_box">
+            <div class="designer_item">
+                <div class="img_w">
+                    <a href="<%= url %>">
+                        <img src="<%= img %>">
+                    </a>
+                </div>
+                <div class="designer_name">
+                    <a href="<%= url %>"><%= h1 %></a>
+                </div>
+                <div class="designer_info">
+                    <p>
+                        <%= brief %>
+                        <a href="<%= url %>" class="gl_link more_link">
+                            >>>
+                        </a>
+                    </p>
+                </div>
+                <div class="designer_info">
+                    <% if (site) { %>
+                        <div class="designer_info_l"><a target="_blank" href="<%= site %>" class="gl_link world_link"><img src="{{ asset('bundles/sipresource/img/world.png') }}"/></a></div>
+                    <% } %>
+                    <% if (pinterest) { %>
+                        <div class="designer_info_r"><a target="_blank" href="<%= pinterest %>" class="gl_link inst_link"><img src="{{ asset('bundles/sipresource/img/pint.png') }}"/></a></div>
+                    <% } %>
+                    <% if (instagram) { %>
+                        <div class="designer_info_r"><a target="_blank" href="<%= instagram %>" class="gl_link inst_link"><img src="{{ asset('bundles/sipresource/img/inst.png') }}"/></a></div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </script>
+{% endblock %}
+{% block bodyjs %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            var inProgress = false;
+            var startFrom = 10;
+
+            $(window).scroll(function() {
+
+                if($(window).scrollTop() + $(window).height() >= $(document).height() - 200 && !inProgress) {
+
+                    var data = {"startFrom" : startFrom};
+
+                    {% if tag is defined %}
+                        data.tag = '{{ tag.id }}';
+                    {% endif %}
+                    {% if app.request.get('search') %}
+                        data.search = '{{ app.request.get('search') }}';
+                    {% endif %}
+                    $.ajax({
+                        url: '{{ path('sip_resource_ajax_designers') }}',
+                        method: 'GET',
+                        data: data,
+
+                        beforeSend: function() {
+                            inProgress = true;
+                        }
+                    }).done(function(data){
+                        if (data) {
+                            $('#temp-load').html('');
+                            $('body').append('<div id="temp-load"</div>');
+                            $.each(data, function(index, data){
+                                $('#temp-load').append(tmpl("designer_tmpl", data));
+                            });
+                            var toAdd = $('#temp-load').html();
+                            $('#temp-load').imagesLoaded().done( function( imgLoad, image ) {
+                                $('#designers').isotope('insert', $(toAdd), function(){
+                                    $('#temp-load').html('');
+                                });
+                            });
+
+                            inProgress = false;
+                            startFrom += 10;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}

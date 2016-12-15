@@ -1,0 +1,41 @@
+{% if pageCount > 1 %}
+    <ul>
+
+        {% if first is defined and current != first %}
+            <li>
+                <a href="{{ path(route, query|merge({(pageParameterName): first})) }}">{{ 'sip_pagination_first'|trans }}</a>
+            </li>
+        {% endif %}
+
+        {% if previous is defined %}
+            <li>
+                <a data-page="{{ previous }}" href="{{ path(route, query|merge({(pageParameterName): previous})) }}"><</a>
+            </li>
+        {% endif %}
+
+        {% for page in pagesInRange %}
+            {% if page != current %}
+                <li>
+                    <a data-page="{{ page }}" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+                </li>
+            {% else %}
+                <li class="active">
+                    <a href="#">{{ page }}</a>
+                </li>
+            {% endif %}
+
+        {% endfor %}
+
+        {% if next is defined %}
+            <li>
+                <a data-page="{{ next }}" href="{{ path(route, query|merge({(pageParameterName): next})) }}">></a>
+            </li>
+        {% endif %}
+
+        {% if last is defined and current != last %}
+            <li>
+                <a href="{{ path(route, query|merge({(pageParameterName): last})) }}">{{ 'sip_pagination_last'|trans }}</a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}

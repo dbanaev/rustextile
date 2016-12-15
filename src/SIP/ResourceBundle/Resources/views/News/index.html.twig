@@ -1,0 +1,156 @@
+{% extends "SIPResourceBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {% stylesheets output='assets/compiled/layout_calendar.css'
+        'http://cdn.jsdelivr.net/bootstrap/latest/css/bootstrap.css'
+        'http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css'
+        '@SIPResourceBundle/Resources/public/css/main_global.css'
+        '@SIPResourceBundle/Resources/public/css/blueimp-gallery.min.css'
+        '@SIPResourceBundle/Resources/public/css/override.css'
+        filter='cssrewrite'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block metatags %}
+    {% set meta = get_meta_data('news') %}
+    {% if meta %}
+        {% if meta.metaTitle %}<title>{{ meta.metaTitle }}</title>{% endif %}
+        {% if meta.metaKeywords %}<meta content="{{ meta.metaKeywords }}" name="keywords">{% endif %}
+        {% if meta.metaDescription %}<meta content="{{ meta.metaDescription }}" name="description">{% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="main_content posts cols calendar">
+        <div class="section_inner clearfix">
+            <ul class="breadcumbs">
+                <li>
+                    <a href="{{ path('sip_resource_main') }}">Главная</a>
+                </li>
+                <li>
+                    <a href="{{ path('sip_resource_news') }}">Новости</a>
+                </li>
+                {% if rubric is defined %}
+                    <li>
+                        <a href="{{ path('sip_resource_news', {'rubric': rubric.slug}) }}">{{ rubric.name }}</a>
+                    </li>
+                {% endif %}
+                {% if tag is defined %}
+                    <li>
+                        <a href="{{ path('sip_resource_news', {'tag': tag.tag.slug}) }}">{{ tag.name }}</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+            {% if app.request.get('start') and app.request.get('end') %}
+                <h1>
+                    Новости с <span id="date">{{ app.request.get('start') }}<span> по </span>{{ app.request.get('end') }}</span>
+                </h1>
+            {% else %}
+                <h1 class="date-title">
+                    Новости <span>за весь период</span>
+                </h1>
+            {% endif %}
+            <div class="col-1">
+                <form action="{{ path(app.request.get('_route')) }}" method="GET">
+                    <div class="search">
+                        <input type="text" name="search" value="{{ app.request.get('search') }}">
+                        {% if app.request.get('start') and app.request.get('end') %}
+                            <input type="hidden" name="start" value="{{ app.request.get('start') }}">
+                            <input type="hidden" name="end" value="{{ app.request.get('end') }}">
+                        {% endif %}
+                        <input type="submit" value="Поиск">
+                    </div>
+                </form>
+
+                <div class="news-list">
+
+                    {% for item in news %}
+
+                        <div class="item">
+                            <div class="img">
+                                <a href="{{ path('sip_resource_news_item', {'slug': item.slug}) }}">
+                                    <img src="{% path item.image, 'list' %}" alt="">
+                                </a>
+                            </div>
+                            <div class="body">
+                                <div class="date">{{ item.dateAdd|date('d.m.Y') }}</div>
+                                <a href="{{ path('sip_resource_news_item', {'slug': item.slug}) }}">{{ item.h1|raw }}</a>
+                                <div class="description">
+                                    {{ item.brief|raw }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="pagination">
+                    {{ knp_pagination_render(news, 'SIPResourceBundle:Pagination:pagination.html.twig') }}
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="sidebar-box">
+                    <div class="header">Рубрика</div>
+                    <ul class="catlist">
+                        <li class="active">
+                            <a href="{{ path('sip_resource_news') }}">
+                                <span class="name">Все</span>
+                                <span class="count">{{ countAllNews }}</span>
+                            </a>
+                        </li>
+                        {% for rubric in rubrics %}
+                            <li>
+                                <a href="{{ path('sip_resource_news', {'rubric': rubric.slug}) }}">
+                                    <span class="name">{{ rubric.name }}</span>
+                                    <span class="count">{{ rubric.c }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block bodyjs %}
+    {% javascripts output='assets/compiled/layout_body_calendar.js'
+        'http://cdn.jsdelivr.net/momentjs/latest/moment.min.js'
+        'http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        $(document).ready(function(){
+            $('h1').daterangepicker({
+                locale: {
+                    cancelLabel: 'Отмена',
+                    applyLabel: 'Применить',
+                    daysOfWeek: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+                    monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+                }
+            }, cb);
+
+            function cb(start, end) {
+
+                start = start.format('DD.MM.YYYY');
+                end = end.format('DD.MM.YYYY');
+
+                $('h1').html('Новости с <span>' + start + ' по ' + end + '</span>');
+
+                var url = new Url('{{ path('sip_resource_news') }}');
+
+                url.query.start = start;
+                url.query.end = end;
+                if ($('form .search input[name="search"]').val()) {
+                    url.query.search = $('form .search input[name="search"]').val();
+                }
+
+                location.href = url.toString();
+            }
+
+        });
+    </script>
+{% endblock %}

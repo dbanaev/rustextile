@@ -1,0 +1,16 @@
+sip_search:
+    searchd:
+        host:   %sphinxsearch_host%
+        port:   %sphinxsearch_port%
+
+    indexes:
+        rustextNewsIndex:
+            rustextNewsIndex: ~
+        rustextPublishingIndex:
+            rustextPublishingIndex: ~
+        rustextDesignersIndex:
+            rustextDesignersIndex: ~
+        rustextManufacturersIndex:
+            rustextManufacturersIndex: ~
+        rustextEventsIndex:
+            rustextEventsIndex: ~

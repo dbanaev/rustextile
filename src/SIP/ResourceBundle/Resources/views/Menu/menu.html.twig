@@ -1,0 +1,7 @@
+{% extends 'knp_menu.html.twig' %}
+
+{% block label %}
+    <span class="link_text">
+        {{ item.label|trans(item.getExtra('translation_params', {}), item.getExtra('translation_domain', 'messages')) }}
+    </span>
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends "SIPResourceBundle::layout.html.twig" %}
+{% block metatags %}
+    {% set meta = get_meta_data('events') %}
+    {% if meta %}
+        {% if meta.metaTitle %}<title>{{ meta.metaTitle }}</title>{% endif %}
+        {% if meta.metaKeywords %}<meta content="{{ meta.metaKeywords }}" name="keywords">{% endif %}
+        {% if meta.metaDescription %}<meta content="{{ meta.metaDescription }}" name="description">{% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="main_content">
+        <div class="section_inner">
+        <div class="page_title">
+            <h1 class="fz_36">
+                Календарь мероприятий
+                {% if tag is defined %}
+                    / {{ tag.name }}
+                {% endif %}
+            </h1>
+        </div>
+        <div class="calendar_controls">
+            <div class="cal_c_l">
+                <div class="cal_caption">
+                    <div class="mob_hidden">{{ monthInfo.long }}</div>
+                    <div class="mob_only">{{ monthInfo.long }}</div>
+                </div>
+            </div>
+            <div class="cal_c_l">
+                {% if tag is defined %}
+                    <a href="{{ path('sip_resource_events', {'tag': tag.slug, 'month': prev.month, 'year': prev.year}) }}" class="gl_link cal_btn">
+                {% else %}
+                    <a href="{{ path('sip_resource_events', {'month': prev.month, 'year': prev.year}) }}" class="gl_link cal_btn">
+                {% endif %}
+                    <div class="mob_hidden"><-- пред. месяц</div>
+                    <div class="mob_only"><- пред. мес</div>
+                </a>
+            </div>
+            <div class="cal_c_l">
+                {% if tag is defined %}
+                    <a href="{{ path('sip_resource_events', {'tag': tag.slug, 'month': next.month, 'year': next.year}) }}" class="gl_link cal_btn">
+                {% else %}
+                    <a href="{{ path('sip_resource_events', {'month': next.month, 'year': next.year}) }}" class="gl_link cal_btn">
+                {% endif %}
+                    <div class="mob_hidden">след. месяц --></div>
+                    <div class="mob_only">след. мес -></div></a>
+            </div>
+            <div class="cal_c_r mob_hidden">
+                <div class="cal_caption">{{ year }}</div>
+            </div>
+        </div>
+        <div class="calendar_wrapper">
+            <div class="swiper">
+                <div class="calendar_holder">
+                    {% set daysInMonth = eventsArr|length %}
+                    {% for day, values in eventsArr %}
+
+                        {% if day == 1 %}
+                            {% if values.weekday == 0 %}
+                                {% set daysPrevMonth = 6 %}
+                            {% else %}
+                                {% set daysPrevMonth =  values.weekday - 1 %}
+                            {% endif %}
+                            {% for i in 1..daysPrevMonth %}
+                                <div class="cal_cell disabled">
+                                    <div class="cal_date">
+                                        <div class="cal_day">
+                                            <div class="cal_day_name">пт.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% set events = values.events %}
+                        {% if values.weekday == 0 or values.weekday == 6 %}
+                            <div class="cal_cell weekend">
+                        {% else %}
+                            <div class="cal_cell">
+                        {% endif %}
+                            <div class="cal_date">
+                                <div class="cal_day">{{ day }}
+                                    <div class="cal_day_name">пт.</div>
+                                </div>
+                                {% if events|length > 0 %}
+                                    <div class="cal_img"><img src="{% path events[0].image, 'big' %}"></div>
+                                    <ul class="cal_hover_info">
+                                        {% for event in events %}
+                                            <li class="cal_h_item">
+                                                <a href="{{ path('sip_resource_event', {'slug': event.slug}) }}" class="gl_link color_black">
+                                                    <h3>{{ event.dateStart|date('d-m-Y') }} -  {{ event.dateEnd|date('d-m-Y') }}</h3>
+                                                    <p>{{ event.h1|raw }}</p>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% set limit = (events|length > 3) ? 3 : events|length %}
+                                    <ul class="cal_event">
+                                        {% for i in 1..limit %}
+                                            <li class="cal_ev_item"></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if day == daysInMonth %}
+                            {% if values.weekday != 0 %}
+                                {% set daysNextMonth =  7 - values.weekday %}
+                                {% for i in 1..daysNextMonth %}
+                                    <div class="cal_cell disabled">
+                                        <div class="cal_date">
+                                            <div class="cal_day">
+                                                <div class="cal_day_name">пт.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="page_title">
+            <h1 class="fz_36">Лента мероприятий</h1>
+        </div>
+        <div class="event_caption fw_b">{{ monthInfo.long }} {{ year }}</div>
+            <ul class="event_list">
+                {% for day, values in eventsArr %}
+                    {% set events = values.events %}
+                    {% for event in events %}
+                        <li class="event_item">
+                            <div class="event_l_date">
+                                <div class="event_l_day">{{ day }}</div>
+                                <div class="event_l_month">{{ monthInfo.short }}</div>
+                            </div>
+                            <a href="{{ path('sip_resource_event', {'slug': event.slug}) }}" class="gl_link fz_18 color_black">
+                                <div class="event_description">
+                                    <div class="event_img"><img src="{% path event.image, 'small' %}"></div>
+                                    <div class="event_title fw_b">{{ event.h1|raw }}</div>
+                                    <p>{{ event.brief|raw }}</p>
+                                </div>
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

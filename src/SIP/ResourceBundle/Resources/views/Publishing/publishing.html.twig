@@ -1,0 +1,180 @@
+{% extends "SIPResourceBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {% stylesheets output='assets/compiled/layout_new.css'
+    '@SIPResourceBundle/Resources/public/css/main_global.css'
+    '@SIPResourceBundle/Resources/public/css/blueimp-gallery.min.css'
+    '@SIPResourceBundle/Resources/public/css/override.css'
+    '@SIPResourceBundle/Resources/public/jgallery/css/font-awesome.min.css'
+    '@SIPResourceBundle/Resources/public/jgallery/css/jgallery.min.css'
+    filter='cssrewrite'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+{% block headjs %}
+    {% javascripts output='assets/compiled/layout_head_new.js'
+    '@SIPResourceBundle/Resources/public/js/jquery1.10.js'
+    '@SIPResourceBundle/Resources/public/js/isotope.pkgd.min.js'
+    '@SIPResourceBundle/Resources/public/js/script.js'
+    '@SIPResourceBundle/Resources/public/js/url.min.js'
+    '@SIPResourceBundle/Resources/public/js/blueimp-gallery.min.js'
+    '@SIPResourceBundle/Resources/public/jgallery/js/jgallery.js'
+    '@SIPResourceBundle/Resources/public/jgallery/js/touchswipe.min.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
+    <script type="text/javascript">VK.init({apiId: {{ vk_api_key }}, onlyWidgets: true});</script>
+{% endblock %}
+
+{% block metatags %}
+    {% set meta = get_meta_data('publishing') %}
+    {% if meta %}
+        {% if meta.metaTitle %}<title>{{ meta.metaTitle }}</title>{% endif %}
+        {% if meta.metaKeywords %}<meta content="{{ meta.metaKeywords }}" name="keywords">{% endif %}
+        {% if meta.metaDescription %}<meta content="{{ meta.metaDescription }}" name="description">{% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.5&appId=1715908911964078";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div class="main_content posts cols news">
+        <div class="section_inner clearfix">
+            <ul class="breadcumbs">
+                <li>
+                    <a href="{{ path('sip_resource_main') }}">Главная</a>
+                </li>
+                <li>
+                    <a href="{{ path('sip_resource_publishing') }}">Публикации</a>
+                </li>
+                {% if tagName is defined %}
+                    <li>{{ tagName }}</li>
+                {% endif %}
+            </ul>
+
+            <div class="date">{{ publishing.dateAdd|date('d.m.Y') }}</div>
+
+            <h1>{{ publishing.h1|raw }}</h1>
+
+            <div class="col-container">
+                <div class="col-1">
+                    <div class="text-content">
+                        <img src="{% path publishing.image, 'big' %}" alt="">
+                        {{ publishing.full|raw }}
+                    </div>
+
+                    <div id="gallery">
+                        <div class="album" data-jgallery-album-title="Album 1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="sidebar-box">
+                        {% if publishing.rubric %}
+                            <div class="header">{{ publishing.rubric.name }}</div>
+                        {% endif %}
+                        {% if tags|length > 0 %}
+                            <ul class="expo">
+                                {% for tag in tags %}
+                                    <li><a href="{{ path('sip_resource_publishing', {'tag': tag.tag.slug }) }}">{{ tag.tag }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        {% if publishing.fotoFrom %}
+                            <div class="photo">
+                                Фото: <br>
+                                {{ publishing.fotoFrom }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="sidebar-box">
+                        <div class="header">Последние публикации</div>
+                        <div class="last-news">
+                            {% for pub in lastPub %}
+                                <a href="{{ path('sip_resource_publishing_item', {'slug': pub.slug}) }}">{{ pub.h1|raw }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social">
+                <!-- Социальные кнопки -->
+                <script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script>
+                <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter" data-yashareImage="http://{{ app.request.host }}{% path publishing.image, 'big' %}" data-yashareDescription="{{ publishing.brief|raw }}" data-yashareTitle="{{ publishing.h1 }}"></div>
+                <!-- /Социальные кнопки -->
+            </div>
+
+            <div class="comments">
+                <ul id="comments">
+                    <li class="active"><a href="javascript://">Facebook</a></li>
+                    <li><a href="javascript://">Вконтакте</a></li>
+                </ul>
+                <div id="facebook">
+                    <!-- Форма комментариев FaceBook -->
+                    <div id="comments_fb"><div class="fb-comments" data-href="{{ url('sip_resource_news_item', {'slug': publishing.slug}) }}" data-width="674" data-numposts="10" data-colorscheme="light"></div></div>
+                    <!-- /Форма комментариев FaceBook -->
+                </div>
+                <div id="vk">
+                    <div id="comments_vk"><div id="vk_comments"></div><script type="text/javascript">VK.Widgets.Comments("vk_comments", {limit: 10, width: "666", attach: "*"}); </script></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block bodyjs %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('#comments li:first-child').click(function(){
+                $('#vk').fadeOut(150);
+                setTimeout(function(){
+                    $('#facebook').fadeIn(150);
+                    $('#comments li:first-child').addClass("active");
+                    $('#comments li:last-child').removeClass('active');
+                }, 200);
+            });
+
+
+            $('#comments li:last-child').click(function(){
+                $('#facebook').fadeOut(150);
+                setTimeout(function(){
+                    $('#vk').fadeIn(150);
+                    $('#comments li:last-child').addClass("active");
+                    $('#comments li:first-child').removeClass('active');
+                }, 200);
+            });
+        });
+
+        {% if publishing.flickrGalleyId %}
+            var url = 'https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key={{ flickr_api_key }}&photoset_id={{ publishing.flickrGalleyId }}&format=json&nojsoncallback=1';
+            $.ajax({
+                url: url
+            }).done(function(response) {
+                for (id in response.photoset.photo) {
+                    $('#gallery .album').append('<a href="http://farm'+ response.photoset.photo[id].farm +'.staticflickr.com/'+response.photoset.photo[id].server+'/'+response.photoset.photo[id].id+'_'+response.photoset.photo[id].secret+'_b.jpg"><img src="http://farm'+ response.photoset.photo[id].farm +'.staticflickr.com/'+response.photoset.photo[id].server+'/'+response.photoset.photo[id].id+'_'+response.photoset.photo[id].secret+'_b.jpg"></a>');
+                }
+                $(function() {
+                    $( '#gallery' ).jGallery({
+                        slideshow: false,
+                        canZoom: false,
+                        canMinimalizeThumbnails: false
+                    });
+                });
+                return false;
+            });
+        {% endif %}
+    </script>
+{% endblock %}

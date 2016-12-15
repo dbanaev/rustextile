@@ -1,0 +1,27 @@
+<div class="header">
+    <div class="section_inner clearfix">
+        <div class="top_menu"><a href="#" class="humburger"></a>
+            <div class="top_m_item_l">
+                {#
+                <a href="#" class="gl_link fz_15 color_black">Switch to english</a>
+                #}
+                <div id="ytWidget"></div><script src="https://translate.yandex.net/website-widget/v1/widget.js?widgetId=ytWidget&pageLang=ru&widgetTheme=light&trnslKey=trnsl.1.1.20151120T120841Z.30c5c6e022e02b0a.52b62736ceaaa507978f7356f41964f08eaaf307&autoMode=false" type="text/javascript"></script>
+            </div>
+            {#
+            <div class="top_m_item_r"><a href="#" class="gl_link fz_15 color_black">Личный кабинет</a></div>
+            #}
+            <div class="top_m_item_r"><a href="{{ path('sip_search_result') }}" class="gl_link fz_15 color_black">Поиск</a></div>
+        </div>
+        <div class="logo_holder">
+            <div class="fl">
+                <div class="mb"><a href="{{ path('sip_resource_main') }}" class="logo"><img src="/bundles/sipresource/img/logo.png"></a></div>
+            </div>
+            <div class="fr">
+                <div class="mb"><a href="{{ path('sip_resource_main') }}" class="logo logo_v2"><img src="/bundles/sipresource/img/logo_2.png"></a></div>
+            </div>
+        </div>
+        <div class="main_menu_holder">
+            {{ knp_menu_render('SIPResourceBundle:Builder:mainMenu', {'currentClass': 'active'}) }}
+        </div>
+    </div>
+</div>

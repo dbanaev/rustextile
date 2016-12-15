@@ -1,0 +1,154 @@
+{% extends "SIPResourceBundle::layout.html.twig" %}
+{% block metatags %}
+    {% set meta = get_meta_data('brand') %}
+    {% if meta %}
+        {% if meta.metaTitle %}<title>{{ meta.metaTitle }}</title>{% endif %}
+        {% if meta.metaKeywords %}<meta content="{{ meta.metaKeywords }}" name="keywords">{% endif %}
+        {% if meta.metaDescription %}<meta content="{{ meta.metaDescription }}" name="description">{% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block headjs %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
+    <script type="text/javascript">VK.init({apiId: {{ vk_api_key }}, onlyWidgets: true});</script>
+{% endblock %}
+
+{% block content %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.5&appId=1715908911964078";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div class="main_content posts cols news">
+        <div class="section_inner clearfix">
+            <ul class="breadcumbs">
+                <li>
+                    <a href="{{ path('sip_resource_main') }}">Главная</a>
+                </li>
+                <li>
+                    <a href="{{ path('sip_resource_designers') }}">Дизайнеры</a>
+                </li>
+                {% if designer is defined and designer %}
+                    <li>
+                        <a href="{{ path('sip_resource_designer', {'slug': designer.slug}) }}">{{ designer.h1 }}</a>
+                    </li>
+                {% endif %}
+                <li>{{ brand.h1 }}</li>
+            </ul>
+
+            <h1>{{ brand.h1|raw }}</h1>
+
+            <div class="col-container">
+                <div class="col-1">
+                    <div class="text-content">
+                        <img src="{% path brand.image, 'big' %}" alt="">
+                        {{ brand.full|raw }}
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="sidebar-box">
+                        {{ get_banner_by_key('right_col')|raw }}
+                    </div>
+                </div>
+            </div>
+
+            {% if gallery %}
+                <div class="page_title">
+                    <h1 class="fz_36">Фотогалерея</h1>
+                </div>
+                <div class="mason_holder">
+                    <div class="mason" id="gallery">
+                        <div class="mason_sizer"></div>
+                        {% for image in gallery %}
+                            <div class="mason_box">
+                                <div class="designer_item">
+                                    <div class="img_w">
+                                        <a class="gal-link" href="{% path image.image, 'big' %}">
+                                            <img src="{% path image.image, 'gallery' %}"/>
+                                        </a>
+                                    </div>
+                                    <div class="designer_info">
+                                        <script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script>
+                                        <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter" data-yashareImage="http://{{ app.request.host }}{% path image.image, 'gallery' %}" data-yashareDescription="{{ brand.brief|raw }}" data-yashareTitle="{{ brand.h1 }}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="social">
+                <!-- Социальные кнопки -->
+                <script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script>
+                <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter" data-yashareImage="http://{{ app.request.host }}{% path brand.image, 'big' %}" data-yashareDescription="{{ brand.brief|raw }}" data-yashareTitle="{{ brand.h1 }}"></div>
+                <!-- /Социальные кнопки -->
+            </div>
+
+            <div class="comments">
+                <ul id="comments">
+                    <li class="active"><a href="javascript://">Facebook</a></li>
+                    <li><a href="javascript://">Вконтакте</a></li>
+                </ul>
+                <div id="facebook">
+                    <!-- Форма комментариев FaceBook -->
+                    <div id="comments_fb"><div class="fb-comments" data-href="{{ url('sip_resource_brand', {'slug': brand.slug}) }}" data-width="674" data-numposts="10" data-colorscheme="light"></div></div>
+                    <!-- /Форма комментариев FaceBook -->
+                </div>
+                <div id="vk">
+                    <div id="comments_vk"><div id="vk_comments"></div><script type="text/javascript">VK.Widgets.Comments("vk_comments", {limit: 10, width: "666", attach: "*"}); </script></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="close">&#10006;</a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
+    </div>
+{% endblock %}
+{% block bodyjs %}
+    {{ parent() }}
+    <script>
+        $('div.img_w').on('click', function (event) {
+            var target = event.target || event.srcElement,
+                    link = target.src ? target.parentNode : target,
+                    options = {index: link, event: event},
+                    links = document.getElementById('gallery').getElementsByClassName('gal-link');
+            blueimp.Gallery(links, options);
+        });
+        $(document).ready(function(){
+            $('#comments li:first-child').click(function(){
+                $('#vk').fadeOut(150);
+                setTimeout(function(){
+                    $('#facebook').fadeIn(150);
+                    $('#comments li:first-child').addClass("active");
+                    $('#comments li:last-child').removeClass('active');
+                }, 200);
+            });
+
+
+            $('#comments li:last-child').click(function(){
+                $('#facebook').fadeOut(150);
+                setTimeout(function(){
+                    $('#vk').fadeIn(150);
+                    $('#comments li:last-child').addClass("active");
+                    $('#comments li:first-child').removeClass('active');
+                }, 200);
+            });
+        });
+    </script>
+{% endblock %}

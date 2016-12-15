@@ -1,0 +1,52 @@
+Source: Источники поиска
+
+Sources List: Список источников поиска
+Sources Edit: Редактирование источника поиска
+Sources Create: Создание нового источника поиска
+Sources Show: Просмотр источника поиска
+
+sip.search.source.title: Название
+sip.search.source.sources: Источники
+sip.search.source.sort: Сортировки
+sip.search.source.inFilter: Выводить в фильтре
+sip.search.source.suggestPopular: Популярные
+sip.search.source.limitSuggest: Подсказки (шт)
+sip.search.source.limitPopular: Популярные (шт)
+Autocomplete: Автодополнение
+
+Query: Поисковые подсказки
+
+Query List: Список поисковых подсказок
+Query Create: Добавление поисковой подсказки
+Query Show: Просмотр поисковой подсказки
+Query Edit: Редактирование поисковой подсказки
+
+Source Id: Источник
+Term: Запрос
+Count: Популярность
+
+
+armd_search: Поиск
+usagetype.title.armd_search.searchForm: Форма поиска
+usagetype.title.armd_search.searchResults: Результаты поиска
+usagetype.title.armd_search.searchFull: Расширенный поиск
+
+search.action.popular: Популярные
+
+search.form.button: Найти
+search.form.placeholder: поиск
+search.results: Результаты поиска
+search.results.query: "Запрос: %query%."
+search.results.found: "Найдено: %count%"
+search.results.empty: По вашему запросу материалов не найдено.
+
+sip_search: Поиск
+usagetype.title.sip_search.searchForm: Форма поиска
+usagetype.title.sip_search.searchResults: Результаты поиска
+
+searchForm: Форма поиска
+searchResults: Результаты поиска
+
+sip_search_cloud: темы
+sip_search_fact: факты
+sip_search_people: люди

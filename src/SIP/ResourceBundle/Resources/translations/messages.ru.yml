@@ -1,0 +1,207 @@
+Setting: Настройки
+Setting List: Настройки
+sip_setting_name: Название
+sip_setting_code: Код
+sip_setting_value: Значение
+Action: Действия
+General: Основные
+Meta: Метаданные
+Addition: Дополнительно
+Settings: Настройки
+
+sip_metaTitle: Мета Titile
+sip_metaDescription: Мета Description
+sip_metaKeywords: Мета Keywords
+
+MetaData: Метаданные
+Meta Data List: Метаданные
+
+Page: Текстовые страницы
+Page List: Список страниц
+
+sip_resource_events: Мероприятия
+sip_resource_designers: Дизайнеры
+sip_resource_manufacturers: Производители
+sip_resource_news: Новости
+sip_resource_publishing: Публикации
+sip_resource_support_measures: Меры поддержки
+sip_nashaforma: Наша форма
+
+Tag: Теги
+Tag List:  Список тегов
+sip_tag_slug: Слаг
+sip_tag_name: Название
+
+Event: События
+Event List: Список событий
+sip_event_h1: Заголовок
+sip_event_dateStart: Дата начала
+sip_event_dateEnd:  Дата окончания
+sip_advert_image: Изображение
+sip_event_brief: Анонс
+sip_event_full: Содержимое
+sip_event_address: Адресс
+sip_event_phone: Телефон
+sip_event_fotoFrom: Источник
+sip_event_publish:  Опубликовано
+sip_event_onMain: Выводить на главной
+sip_event_type: Тип
+sip_event_tags: Теги
+sip_event_image: Изображение
+sip_event_site: Сайт
+sip_event_dateAdd: Создан
+
+EventType: Типы событий
+Event Type List: Список типов событий
+sip_event_type_name: Название
+
+News: Новости
+News List: Список новостей
+sip_news_h1: Заголовок
+sip_news_brief: Анонс
+sip_news_full: Содержимое
+sip_news_fotoFrom: Источник
+sip_news_publish: Опубликовано
+sip_news_onMain: Выводить на главной
+sip_news_title: Title
+sip_news_description: Description
+sip_news_keywords: Keywords
+sip_news_image: Изображение
+sip_news_dateAdd: Создан
+sip_news_type: Тип новости
+
+Publishing: Публикации
+Publishing List: Список публикаций
+sip_publishing_h1: Заголовок
+sip_publishing_brief: Анонс
+sip_publishing_full: Содержимое
+sip_publishing_fotoFrom: Источник
+sip_publishing_publish: Опубликовано
+sip_publishing_onMain: Выводить на главной
+sip_publishing_title: Title
+sip_publishing_description: Description
+sip_publishing_keywords: Keywords
+sip_publishing_image: Изображение
+sip_publishing_dateAdd: Создан
+sip_publishing_type: Тип новости
+
+Publishing Type List: Список типов публикаций
+
+Designer: Дизайнеры
+Designer List: Список дизайнеров
+sip_designer_h1: Заголовок
+sip_designer_image: Изображение
+sip_designer_fotoFrom: Источник
+sip_designer_brief: Анонс
+sip_designer_full: Содержимое
+sip_designer_address: Адрес
+sip_designer_coords: Координаты
+sip_designer_phone: Телефон
+sip_designer_fax: Факс
+sip_designer_email: Эл. почта
+sip_designer_site: Сайт
+sip_designer_publish: Опубликовано
+sip_designer_city: Город
+sip_designer_region: Регион
+sip_designer_user: Пользователь
+sip_designer_title: Title
+sip_designer_description: Description
+sip_designer_keywords: Keywords
+sip_designer_dateAdd: Добавлен
+sip_designer_tags: Теги
+
+Brand: Бренды
+Brand List: Список брендов
+
+Manufacturer: Производители
+Manufacturer List: Список производителей
+
+City: Города
+City List: Список городов
+sip_city_name: Название города
+
+Region: Регионы
+Region List: Список регионов
+sip_region_name: Название региона
+
+NewsType: Типы новостей
+NewsType List: Список типов новостей
+sip_news_type_name: Тип новости
+
+PublishingType: Типы публикаций
+PublishingType List: Список типов публикаций
+sip_publishing_type_name: Тип публикации
+
+NewsRubric: Рубрики новостей
+News Rubric List: Список рубрик новостей
+sip_news_rubric_name: Название рубрики
+
+PublishingRubric: Рубрики публикаций
+Publishing Rubric List: Список рубрик публикаций
+sip_publishing_rubric_name: Название рубрики
+
+ManufacturerRub:
+ManufacturerRub: Рубрики производителей
+Manufacturer Rubric List: Список рубрик производителей
+
+Blok1: Блок 1
+Blok2: Блок 2
+Blok3: Блок 3
+sip_main_spot_title1: Название
+sip_main_spot_linkItem1: Ссылка на новость
+sip_main_spot_title2: Название
+sip_main_spot_linkItem2: Ссылка на новость
+sip_main_spot_title3: Название
+sip_main_spot_linkItem3: Ссылка на новость
+sip_main_spot_image1: Изображение
+sip_main_spot_image2: Изображение
+sip_main_spot_image3: Изображение
+btn_save: Сохранить
+Main Spot List: Главная страница
+
+Gallery: Галлерея
+sip_desingner_galleryMultiple: Загрузить изображения
+sip_desingn_gallery: Загруженные изображения
+
+sip_preview: Превью
+sip_image: Изображение
+sip_position: Порядок
+
+sip_brand_designers: Дизайнеры
+sip_designer_brands: Бренды
+
+sip_pagination_first: <<
+sip_pagination_last: >>
+sip_news_rubric: Рубрика
+sip_flickrGalleyId: Id галереи Flickr
+sip_publishing_rubric: Рубрика
+
+Banner: Баннеры
+Banner List: Список баннеров
+
+sip.banner.name: Название
+sip.banner.key: Ключ
+sip.banner.image: Изображение
+sip.banner.code: Код
+sip.banner.url: Ссылка
+
+sip_designer_slug: Слаг
+
+sip_region_sortNumber: Код региона
+
+Jan: Января
+Feb: Февраля
+Mar: марта
+Apr: апреля
+May: мая
+Jun: июня
+Jul: июля
+Aug: августа
+Sep: сентября
+Oct: октября
+Nov: ноября
+Dec: декабря
+
+sip_designer_instagram: Инстаграм пользователя
+sip_designer_pinterest: Pinterest пользователя
+sip_manufacturer_rubric: Рубрика

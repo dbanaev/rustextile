@@ -1,0 +1,75 @@
+{% extends "SIPResourceBundle::layout.html.twig" %}
+{% block metatags %}
+    {% set meta = get_meta_data('manufacturers') %}
+    {% if meta %}
+        {% if meta.metaTitle %}<title>{{ meta.metaTitle }}</title>{% endif %}
+        {% if meta.metaKeywords %}<meta content="{{ meta.metaKeywords }}" name="keywords">{% endif %}
+        {% if meta.metaDescription %}<meta content="{{ meta.metaDescription }}" name="description">{% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="main_content posts cols calendar">
+        <div class="section_inner clearfix">
+            <ul class="breadcumbs">
+                <li>
+                    <a href="{{ path('sip_resource_main') }}">Главная</a>
+                </li>
+                <li>Производители</li>
+            </ul>
+            <div class="col-1">
+                <form action="{{ path(app.request.get('_route')) }}" method="GET">
+                    <div class="search">
+                        <input type="text" name="search" value="{{ app.request.get('search') }}">
+                        <input type="submit" value="Поиск">
+                    </div>
+                </form>
+
+                <div class="news-list">
+
+                    {% for item in manufacturers %}
+
+                        <div class="item">
+                            <div class="img">
+                                <a href="{{ path('sip_resource_manufacturer', {'slug': item.slug}) }}">
+                                    <img src="{% path item.image, 'list' %}" alt="" class="manuf-logo">
+                                </a>
+                            </div>
+                            <div class="body">
+                                <a href="{{ path('sip_resource_manufacturer', {'slug': item.slug}) }}">{{ item.h1|raw }}</a>
+                                <div class="description">
+                                    {{ item.brief|raw }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="pagination">
+                    {{ knp_pagination_render(manufacturers, 'SIPResourceBundle:Pagination:pagination.html.twig') }}
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="sidebar-box">
+                    <div class="header">Рубрики</div>
+                    <ul class="catlist">
+                        <li class="active">
+                            <a href="{{ path('sip_resource_manufacturers') }}">
+                                <span class="name">Все</span>
+                                <span class="count">{{ countAllManuf }}</span>
+                            </a>
+                        </li>
+                        {% for rubric in rubrics %}
+                            <li>
+                                <a href="{{ path('sip_resource_manufacturers', {'rubric': rubric.slug}) }}">
+                                    <span class="name">{{ rubric.name }}</span>
+                                    <span class="count">{{ rubric.c }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

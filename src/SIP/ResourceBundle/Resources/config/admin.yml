@@ -1,0 +1,200 @@
+parameters:
+    sip.resourse.setting.admin.class: SIP\ResourceBundle\Admin\SettingAdmin
+    sip.resourse.setting.model.class: SIP\ResourceBundle\Entity\Setting
+
+    sip.resourse.meta.admin.class: SIP\ResourceBundle\Admin\MetaDataAdmin
+    sip.resourse.meta.model.class: SIP\ResourceBundle\Entity\MetaData
+
+    sip.resourse.page.admin.class: SIP\ResourceBundle\Admin\PageAdmin
+    sip.resourse.page.model.class: SIP\ResourceBundle\Entity\Page
+
+    sip.resourse.event.admin.class: SIP\ResourceBundle\Admin\EventAdmin
+    sip.resourse.event.model.class: SIP\ResourceBundle\Entity\Event
+
+    sip.resourse.event.type.admin.class: SIP\ResourceBundle\Admin\EventTypeAdmin
+    sip.resourse.event.type.model.class: SIP\ResourceBundle\Entity\EventType
+
+    sip.resourse.news.admin.class: SIP\ResourceBundle\Admin\NewsAdmin
+    sip.resourse.news.model.class: SIP\ResourceBundle\Entity\News
+
+    sip.resourse.news.rubric.admin.class: SIP\ResourceBundle\Admin\NewsRubricAdmin
+    sip.resourse.news.rubric.model.class: SIP\ResourceBundle\Entity\NewsRubric
+
+    sip.resourse.publishing.admin.class: SIP\ResourceBundle\Admin\PublishingAdmin
+    sip.resourse.publishing.model.class: SIP\ResourceBundle\Entity\Publishing
+
+    sip.resourse.publishing.type.admin.class: SIP\ResourceBundle\Admin\PublishingTypeAdmin
+    sip.resourse.publishing.type.model.class: SIP\ResourceBundle\Entity\PublishingType
+
+    sip.resourse.publishing.rubric.admin.class: SIP\ResourceBundle\Admin\PublishingRubricAdmin
+    sip.resourse.publishing.rubric.model.class: SIP\ResourceBundle\Entity\PublishingRubric
+
+    sip.resourse.designer.admin.class: SIP\ResourceBundle\Admin\DesignerAdmin
+    sip.resourse.designer.model.class: SIP\ResourceBundle\Entity\Designer
+
+    sip.resourse.brand.admin.class: SIP\ResourceBundle\Admin\BrandAdmin
+    sip.resourse.brand.model.class: SIP\ResourceBundle\Entity\Brand
+
+    sip.resourse.manufacturer.admin.class: SIP\ResourceBundle\Admin\ManufacturerAdmin
+    sip.resourse.manufacturer.model.class: SIP\ResourceBundle\Entity\Manufacturer
+
+    sip.resourse.city.admin.class: SIP\ResourceBundle\Admin\CityAdmin
+    sip.resourse.city.model.class: SIP\ResourceBundle\Entity\City
+
+    sip.resourse.region.admin.class: SIP\ResourceBundle\Admin\RegionAdmin
+    sip.resourse.region.model.class: SIP\ResourceBundle\Entity\Region
+
+    sip.resourse.mainspot.admin.class: SIP\ResourceBundle\Admin\MainSpotAdmin
+    sip.resourse.mainspot.model.class: SIP\ResourceBundle\Entity\MainSpot
+
+    sip.resource.designerhasmedia.admin.class: SIP\ResourceBundle\Admin\DesignerHasMediaAdmin
+    sip.resource.designerhasmedia.model.class: SIP\ResourceBundle\Entity\Media\DisignerHasMedia
+
+    sonata.user.admin.user.class: SIP\ResourceBundle\Admin\UserAdmin
+
+    sip.tag.admin.class: SIP\ResourceBundle\Admin\TagAdmin
+
+    sonata.media.admin.media.class: SIP\ResourceBundle\Admin\MediaAdmin
+
+    sip.resource.brandhasmedia.admin.class: SIP\ResourceBundle\Admin\BrandHasMediaAdmin
+    sip.resource.brandhasmedia.model.class: SIP\ResourceBundle\Entity\Media\BrandHasMedia
+
+    sip.resource.manufacturerhasmedia.admin.class: SIP\ResourceBundle\Admin\ManufacturerHasMediaAdmin
+    sip.resource.manufacturerhasmedia.model.class: SIP\ResourceBundle\Entity\Media\ManufacturerHasMedia
+
+    sip.banner.admin.class: SIP\ResourceBundle\Admin\BannerAdmin
+    sip.banner.model.class: SIP\ResourceBundle\Entity\Banner
+
+    sip.resourse.manufacturer_rub.admin.class: SIP\ResourceBundle\Admin\ManufacturerRubAdmin
+    sip.resourse.manufacturer_rub.model.class: SIP\ResourceBundle\Entity\ManufacturerRubric
+services:
+    sip.resourse.setting.admin:
+        class: %sip.resourse.setting.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: dict, label: Setting }
+        arguments: [null, %sip.resourse.setting.model.class%, null, @service_container]
+
+    sip.resourse.meta.admin:
+        class: SIP\ResourceBundle\Admin\MetaDataAdmin
+        arguments: [null, SIP\ResourceBundle\Entity\MetaData, null]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: dict, label: MetaData }
+
+    sip.resourse.page.admin:
+        class: %sip.resourse.page.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: Page }
+        arguments: [null, %sip.resourse.page.model.class%, null, @service_container]
+
+    sip.resourse.event.admin:
+        class: %sip.resourse.event.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: Event }
+        arguments: [null, %sip.resourse.event.model.class%, null, @service_container]
+
+    sip.resourse.event.type.admin:
+        class: %sip.resourse.event.type.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: dict, label: EventType }
+        arguments: [null, %sip.resourse.event.type.model.class%, PixSortableBehaviorBundle:SortableAdmin]
+
+    sip.resourse.news.admin:
+        class: %sip.resourse.news.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: News }
+        arguments: [null, %sip.resourse.news.model.class%, null, @service_container]
+
+    sip.resourse.designer.admin:
+        class: %sip.resourse.designer.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: Designer }
+        arguments: [null, %sip.resourse.designer.model.class%, null, @service_container]
+
+    sip.resourse.brand.admin:
+        class: %sip.resourse.brand.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: Brand }
+        arguments: [null, %sip.resourse.brand.model.class%, null, @service_container]
+
+    sip.resourse.manufacturer.admin:
+        class: %sip.resourse.manufacturer.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: Manufacturer }
+        arguments: [null, %sip.resourse.manufacturer.model.class%, null, @service_container]
+
+    sip.resourse.manufacturer_rub.admin:
+        class: %sip.resourse.manufacturer_rub.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: ManufacturerRub }
+        arguments: [null, %sip.resourse.manufacturer_rub.model.class%, null, @service_container]
+
+    sip.resourse.city.admin:
+        class: %sip.resourse.city.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: City }
+        arguments: [null, %sip.resourse.city.model.class%, null]
+
+    sip.resourse.region.admin:
+        class: %sip.resourse.region.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: Region }
+        arguments: [null, %sip.resourse.region.model.class%, null]
+
+    sip.resourse.news.rubric.admin:
+        class: %sip.resourse.news.rubric.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: dict, label: NewsRubric }
+        arguments: [null, %sip.resourse.news.rubric.model.class%, null]
+
+    sip.resourse.publishing.admin:
+        class: %sip.resourse.publishing.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: Publishing }
+        arguments: [null, %sip.resourse.publishing.model.class%, null, @service_container]
+
+    sip.resourse.publishing.rubric.admin:
+        class: %sip.resourse.publishing.rubric.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: dict, label: PublishingRubric }
+        arguments: [null, %sip.resourse.publishing.rubric.model.class%, null]
+
+    sonata.media.admin.gallery:
+        class: %sonata.media.admin.gallery.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: sonata_media, label: gallery, show_in_dashboard: false }
+        arguments: [null, %sonata.media.admin.gallery.entity%, %sonata.media.admin.gallery.controller%, @sonata.media.pool]
+        calls:
+            - [setTranslationDomain, [ %sonata.media.admin.gallery.translation_domain% ] ]
+            - [setTemplates, [ {list: SonataMediaBundle:GalleryAdmin:list.html.twig} ] ]
+
+    sip.resourse.mainspot.admin:
+        class: %sip.resourse.mainspot.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: Mainspot }
+        arguments: [null, %sip.resourse.mainspot.model.class%, SIPResourceBundle:MainSpotAdmin]
+        calls:
+            - [setTemplates, [ {edit: SIPResourceBundle:Admin:mainspot_edit.html.twig} ] ]
+
+    sip.resource.designerhasmedia.admin:
+        class: %sip.resource.designerhasmedia.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Content, label: designerMedia, show_in_dashboard: false }
+        arguments: [null, %sip.resource.designerhasmedia.model.class%, null]
+
+    sip.resource.brandhasmedia.admin:
+        class: %sip.resource.brandhasmedia.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Content, label: brandMedia, show_in_dashboard: false }
+        arguments: [null, %sip.resource.brandhasmedia.model.class%, null]
+
+    sip.resource.manufacturerhasmedia.admin:
+        class: %sip.resource.manufacturerhasmedia.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Content, label: manufacturerMedia, show_in_dashboard: false }
+        arguments: [null, %sip.resource.manufacturerhasmedia.model.class%, null]
+
+    sip.resource.banner.admin:
+        class: %sip.banner.admin.class%
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: content, label: Banner }
+        arguments: [null, %sip.banner.model.class%, null]

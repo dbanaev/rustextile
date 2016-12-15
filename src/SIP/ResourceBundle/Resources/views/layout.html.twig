@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie ie7" lang="ru-RU">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie ie8" lang="ru-RU">
+<![endif]-->
+<!--[if !(IE 7) | !(IE 8)  ]><!-->
+<html lang="ru-RU">
+<!--<![endif]-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    {% block metatags %}
+        <title>rustekstile.ru</title>
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+    {% endblock %}
+    {% block stylesheets %}
+        {% stylesheets output='assets/compiled/layout.css'
+            '@SIPResourceBundle/Resources/public/css/main_global.css'
+            '@SIPResourceBundle/Resources/public/css/blueimp-gallery.min.css'
+            '@SIPResourceBundle/Resources/public/css/override.css'
+        filter='cssrewrite'
+        %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+        {% endstylesheets %}
+    {% endblock %}
+    {% block headjs %}
+        {% javascripts output='assets/compiled/layout_head.js'
+            '@SIPResourceBundle/Resources/public/js/jquery1.10.js'
+            '@SIPResourceBundle/Resources/public/js/isotope.pkgd.min.js'
+            '@SIPResourceBundle/Resources/public/js/script.js'
+            '@SIPResourceBundle/Resources/public/js/url.min.js'
+            '@SIPResourceBundle/Resources/public/js/blueimp-gallery.min.js'
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.2.0/imagesloaded.pkgd.min.js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
+    {% block icons %}
+        <link rel="icon" href="{{ asset('bundles/sipresource/img/favicon.ico') }}?v1.0" type="image/x-icon">
+    {% endblock %}
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <link rel="stylesheet" href="styles/main_ie.css" media="all"/>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="base">
+        {% include 'SIPResourceBundle::header.html.twig' %}
+        {% block content %}{% endblock %}
+    </div>
+    {% include 'SIPResourceBundle::footer.html.twig' %}
+</div>
+
+{% block bodyjs %}
+    {% javascripts output='assets/compiled/layout_body.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+</body>
+</html>

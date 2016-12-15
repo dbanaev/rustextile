@@ -1,0 +1,25 @@
+services:
+    sip.resource.form.show.image.type:
+        class: SIP\ResourceBundle\Form\Type\ShowImageType
+        tags:
+            - { name: form.type, alias: show_sonata_image }
+
+    sip_resource.twig.settings:
+            class: SIP\ResourceBundle\Twig\Extension\SettingsExtension
+            arguments: ['@service_container']
+            tags: [{ name: twig.extension }]
+
+    sip_resource.twig.meta:
+        class: SIP\ResourceBundle\Twig\Extension\MetaExtension
+        arguments:
+              doctrine: "@doctrine"
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    sip_banner.twig_extension:
+        class: SIP\ResourceBundle\Twig\Extension\BannerTwigExtension
+        tags:
+            -  { name: twig.extension }
+        calls:
+            - [ setContainer, [ @service_container ] ]

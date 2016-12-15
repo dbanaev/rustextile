@@ -1,0 +1,98 @@
+{% extends "SIPResourceBundle::layout.html.twig" %}
+{% block metatags %}
+    {% set meta = get_meta_data('main') %}
+    {% if meta %}
+        {% if meta.metaTitle %}<title>{{ meta.metaTitle }}</title>{% endif %}
+        {% if meta.metaKeywords %}<meta content="{{ meta.metaKeywords }}" name="keywords">{% endif %}
+        {% if meta.metaDescription %}<meta content="{{ meta.metaDescription }}" name="description">{% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="main_content">
+        <div class="section_inner">
+            <div class="theme_block"><a href="{% if mainspot %}{{ mainspot.linkItem1 }}{% endif %}" class="gl_link fz_18 color_black">Тема недели</a></div>
+                <a href="{% if mainspot %}{{ mainspot.linkItem1 }}{% endif %}" class="theme_banner">
+                    <img src="{% if mainspot %}{% path mainspot.image1, 'main' %}{% endif %}">
+                    <div class="theme_title">{% if mainspot %}{{ mainspot.title1|raw }}{% endif %}</div>
+                </a>
+            <div class="clearfix fr_2_l">
+                <div class="fl w_660">
+                    <div class="news_holder">
+                        <div class="mb_5"><a href="{{ path('sip_resource_news') }}" class="gl_link fz_18 color_black">Новости</a></div>
+                        <div class="news_block w_410">
+                            <a href="{% if mainspot %}{{ mainspot.linkItem2 }}{% endif %}" class="img_w">
+                                <img src="{% if mainspot %}{% path mainspot.image2, 'left' %}{% endif %}">
+                            </a>
+                            <div class="fz_20">
+                                <a href="{% if mainspot %}{{ mainspot.linkItem2 }}{% endif %}" class="gl_link fz_18 color_black">
+                                    {% if mainspot %}{{ mainspot.title2|raw }}{% endif %}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="news_block w_265">
+                            <a href="{% if mainspot %}{{ mainspot.linkItem3 }}{% endif %}" class="img_w">
+                                <img src="{% if mainspot %}{% path mainspot.image3, 'left' %}{% endif %}">
+                            </a>
+                            <div class="fz_20">
+                                <a href="{% if mainspot %}{{ mainspot.linkItem3 }}{% endif %}" class="gl_link fz_18 color_black">
+                                    {% if mainspot %}{{ mainspot.title3|raw }}{% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fr w_330 pl_16 tablet_wide">
+                    <div class="news_block">
+                        <div class="mb_5"><a href="{{ path('sip_resource_events') }}" class="gl_link fz_18 color_black">Все события >></a></div>
+                        {% if event %}
+                            <a href="{{ path('sip_resource_event', {'slug': event.slug}) }}" class="img_w">
+                                <time datetime="2015-09-31T11:19" class="event_date">
+                                    <div class="event_day">{{ event.dateStart|date('d') }}</div>
+                                    <div class="event_month">{{ event.dateStart|date('M')|trans|upper }}</div>
+                                </time>
+                            </a>
+                            <a href="{{ path('sip_resource_event', {'slug': event.slug}) }}" class="gl_link fz_18 color_black">
+                                {{ event.h1 }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix fr_2_l">
+                <div class="fl w_660 tablet_wide">
+                    <div class="search_block">
+                        <div class="abs_holder">
+                            <div class="gl_table text_center">
+                                <div class="gl_t_cell">
+                                    <div class="search_form">
+                                        <form action="{{ path('sip_search_result') }}" method="GET">
+                                            <div class="form_cell search_cell">
+                                                <label for="search_input" class="f_label">Поиск дизайнера или организации</label>
+                                                <div class="input_w">
+                                                    <input id="search_input" class="f_input f_input_v1" name="search">
+                                                </div>
+                                                <button class="btn_v1 search_btn"><span class="mb">Поиск</span></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb_5"><a href="{{ path('sip_resource_news') }}" class="gl_link fz_18 color_black">Все новости >></a></div>
+                    <dl class="all_news_block">
+                        {% for item in news %}
+                            <dt class="news_date"><a href="{{ path('sip_resource_news_item', {'slug': item.slug}) }}" class="gl_link color_black">{{ item.dateAdd|date("d-m-Y") }}</a></dt>
+                            <dd class="news_item"><a href="{{ path('sip_resource_news_item', {'slug': item.slug}) }}" class="gl_link color_black">{{ item.h1 }}</a></dd>
+                        {% endfor %}
+                    </dl>
+                </div>
+                <div class="fr w_330 pl_16 tablet_wide">
+                    {{ get_banner_by_key('main_banner')|raw }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

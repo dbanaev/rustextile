@@ -1,0 +1,90 @@
+{% extends "SIPResourceBundle::layout.html.twig" %}
+
+{% block metatags %}
+    <title>{{ page.metaTitle }}</title>
+    <meta content="{{ page.metaKeywords }}" name="keywords">
+    <meta content="{{ page.metaDescription }}" name="description">
+{% endblock %}
+
+{% block content %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.5&appId=1715908911964078";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div class="main_content posts cols news">
+        <div class="section_inner clearfix">
+            <ul class="breadcumbs">
+                <li>
+                    <a href="{{ path('sip_resource_main') }}">Главная</a>
+                </li>
+            </ul>
+
+            <h1>{{ page.title }}</h1>
+
+            <div class="col-container">
+                <div class="col-1">
+                    <div class="text-content">
+                        <p>{{ page.body|raw }}</p>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="sidebar-box">
+                        {{ get_banner_by_key('right_col')|raw }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="social">
+                <!-- Социальные кнопки -->
+                <script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script>
+                <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter" data-yashareDescription="{{ page.title|raw }}" data-yashareTitle="{{ page.title }}"></div>
+                <!-- /Социальные кнопки -->
+            </div>
+
+            <div class="comments">
+                <ul id="comments">
+                    <li class="active"><a href="javascript://">Facebook</a></li>
+                    <li><a href="javascript://">Вконтакте</a></li>
+                </ul>
+                <div id="facebook">
+                    <!-- Форма комментариев FaceBook -->
+                    <div id="comments_fb"><div class="fb-comments" data-href="{{ url('sip_staic_pages', {'slug': page.slug}) }}" data-width="674" data-numposts="10" data-colorscheme="light"></div></div>
+                    <!-- /Форма комментариев FaceBook -->
+                </div>
+                <div id="vk">
+                    <div id="comments_vk"><div id="vk_comments"></div><script type="text/javascript">VK.Widgets.Comments("vk_comments", {limit: 10, width: "666", attach: "*"}); </script></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block bodyjs %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('#comments li:first-child').click(function(){
+                $('#vk').fadeOut(150);
+                setTimeout(function(){
+                    $('#facebook').fadeIn(150);
+                    $('#comments li:first-child').addClass("active");
+                    $('#comments li:last-child').removeClass('active');
+                }, 200);
+            });
+
+
+            $('#comments li:last-child').click(function(){
+                $('#facebook').fadeOut(150);
+                setTimeout(function(){
+                    $('#vk').fadeIn(150);
+                    $('#comments li:last-child').addClass("active");
+                    $('#comments li:first-child').removeClass('active');
+                }, 200);
+            });
+        });
+    </script>
+{% endblock %}

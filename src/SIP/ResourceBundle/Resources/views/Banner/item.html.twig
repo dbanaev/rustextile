@@ -1,0 +1,7 @@
+{% if entity %}
+    {% if entity.code %}
+        {{ entity.code|raw }}
+    {% else %}
+        <a target="_blank" href="{{ entity.url }}">{% media entity.image, 'reference' %}</a>
+    {% endif %}
+{% endif %}

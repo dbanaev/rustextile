@@ -1,0 +1,161 @@
+{% extends "SIPResourceBundle::layout.html.twig" %}
+{% block metatags %}
+    {% set meta = get_meta_data('news') %}
+    {% if meta %}
+        {% if meta.metaTitle %}<title>{{ meta.metaTitle }}</title>{% endif %}
+        {% if meta.metaKeywords %}<meta content="{{ meta.metaKeywords }}" name="keywords">{% endif %}
+        {% if meta.metaDescription %}<meta content="{{ meta.metaDescription }}" name="description">{% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+        <div class="main_content posts cols">
+            <div class="section_inner clearfix">
+                <ul class="breadcumbs">
+                    <li>
+                        <a href="{{ path('sip_resource_main') }}">Главная</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('sip_search_result') }}">Поиск</a>
+                    </li>
+                    {% if app.request.query.get("part") %}
+                        {% if app.request.query.get("part") == 'news'%}
+                            <li>
+                                <a href="{{ path('sip_search_result', {'part': 'news', 'search': app.request.query.get("search") }) }}">Новости</a>
+                            </li>
+                        {% elseif app.request.query.get("part") == 'event'%}
+                            <li>
+                                <a href="{{ path('sip_search_result', {'part': 'event', 'search': app.request.query.get("search") }) }}">Мероприятия</a>
+                            </li>
+                        {% elseif app.request.query.get("part") == 'publishing'%}
+                            <li>
+                                <a href="{{ path('sip_search_result', {'part': 'publishing', 'search': app.request.query.get("search") }) }}">Публикации</a>
+                            </li>
+                        {% elseif app.request.query.get("part") == 'manufacturer'%}
+                            <li>
+                                <a href="{{ path('sip_search_result', {'part': 'manufacturer', 'search': app.request.query.get("search") }) }}">Производители</a>
+                            </li>
+                        {% elseif app.request.query.get("part") == 'designer'%}
+                            <li>
+                                <a href="{{ path('sip_search_result', {'part': 'designer', 'search': app.request.query.get("search") }) }}">Дизайнеры</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+                <h1>Результаты поиска{% if app.request.query.get("search") %}: {{ app.request.query.get("search") }}{% endif %}</h1>
+                <div class="col-1">
+                    <div class="search">
+                        <form action="{{ path('sip_search_result') }}" method="GET">
+                            <input type="text" name="search" value="">
+                            <input type="submit" value="Поиск">
+                        </form>
+                    </div>
+
+                    {% if searchResults|length > 0 %}
+                        {% for searchResult in searchResults %}
+                            <div class="news-list">
+                                <div class="item">
+                                    <div class="img">
+                                        {% if searchResult.type == 'news'%}
+                                            <a href="{{ path('sip_resource_news_item', {'slug': searchResult.object.slug}) }}">
+                                                <img src="{% path searchResult.object.image, 'list' %}" alt="">
+                                            </a>
+                                        {% elseif searchResult.type == 'event' %}
+                                            <a href="{{ path('sip_resource_event', {'slug': searchResult.object.slug}) }}">
+                                                <img src="{% path searchResult.object.image, 'list' %}" alt="">
+                                            </a>
+                                        {% elseif searchResult.type == 'publishing' %}
+                                            <a href="{{ path('sip_resource_publishing_item', {'slug': searchResult.object.slug}) }}">
+                                                <img src="{% path searchResult.object.image, 'list' %}" alt="">
+                                            </a>
+                                        {% elseif searchResult.type == 'designer' %}
+                                            <a href="{{ path('sip_resource_designer', {'slug': searchResult.object.slug}) }}">
+                                                <img src="{% path searchResult.object.image, 'list' %}" alt="">
+                                            </a>
+                                        {% elseif searchResult.type == 'manufacturer' %}
+                                            <a href="{{ path('sip_resource_manufacturer', {'slug': searchResult.object.slug}) }}">
+                                                <img src="{% path searchResult.object.image, 'list' %}" alt="">
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="body">
+
+                                        {% if searchResult.type != 'manufacturer' %}
+                                            <div class="date">{{ searchResult.object.dateAdd|date('d.m.Y') }}</div>
+                                        {% endif %}
+
+                                        {% if searchResult.type == 'news'%}
+                                            <a href="{{ path('sip_resource_news_item', {'slug': searchResult.object.slug}) }}">{{ searchResult.object.h1|raw }}</a>
+                                        {% elseif searchResult.type == 'event' %}
+                                            <a href="{{ path('sip_resource_event', {'slug': searchResult.object.slug}) }}">{{ searchResult.object.h1|raw }}</a>
+                                        {% elseif searchResult.type == 'publishing' %}
+                                            <a href="{{ path('sip_resource_publishing_item', {'slug': searchResult.object.slug}) }}">{{ searchResult.object.h1|raw }}</a>
+                                        {% elseif searchResult.type == 'designer' %}
+                                            <a href="{{ path('sip_resource_designer', {'slug': searchResult.object.slug}) }}">{{ searchResult.object.h1|raw }}</a>
+                                        {% elseif searchResult.type == 'manufacturer' %}
+                                            <a href="{{ path('sip_resource_manufacturer', {'slug': searchResult.object.slug}) }}">{{ searchResult.object.h1|raw }}</a>
+                                        {% endif %}
+
+                                        <div class="description">
+                                            {{ searchResult.object.brief|raw }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>По вашему запросу ничего не найдено</p>
+                    {% endif %}
+
+                    <div class="pagination">
+                        {{ knp_pagination_render(pagination, 'SIPResourceBundle:Pagination:pagination.html.twig') }}
+                    </div>
+
+                </div>
+                <div class="col-2">
+                    <div class="sidebar-box">
+                        <div class="header">Рубрика</div>
+                        <ul class="catlist">
+                            <li {% if app.request.query.get("part") == false %}class="active"{% endif %}>
+                                <a href="{{ path('sip_search_result', {'search': app.request.query.get("search") }) }}">
+                                    <span class="name">Все</span>
+                                    <span class="count">{{ 'search.results.found'|trans({'%count%':countRows.total})}}</span>
+                                </a>
+                            </li>
+                            <li {% if app.request.query.get("part") == 'news' %}class="active"{% endif %}>
+                                <a href="{{ path('sip_search_result', {'part': 'news', 'search': app.request.query.get("search") }) }}">
+                                    <span class="name">Новости</span>
+                                    <span class="count">{{ countRows.news }}</span>
+                                </a>
+                            </li>
+                            <li {% if app.request.query.get("part") == 'publishing' %}class="active"{% endif %}>
+                                <a href="{{ path('sip_search_result', {'part': 'publishing', 'search': app.request.query.get("search") }) }}">
+                                    <span class="name">Публикации</span>
+                                    <span class="count">{{ countRows.publishing }}</span>
+                                </a>
+                            </li>
+                            <li {% if app.request.query.get("part") == 'manufacturer' %}class="active"{% endif %}>
+                                <a href="{{ path('sip_search_result', {'part': 'manufacturer', 'search': app.request.query.get("search") }) }}">
+                                    <span class="name">Производители</span>
+                                    <span class="count">{{ countRows.manufacturer }}</span>
+                                </a>
+                            </li>
+                            <li {% if app.request.query.get("part") == 'designer' %}class="active"{% endif %}>
+                                <a href="{{ path('sip_search_result', {'part': 'designer', 'search': app.request.query.get("search") }) }}">
+                                    <span class="name">Дизайнеры</span>
+                                    <span class="count">{{ countRows.designer }}</span>
+                                </a>
+                            </li>
+                            <li {% if app.request.query.get("part") == 'event' %}class="active"{% endif %}>
+                                <a href="{{ path('sip_search_result', {'part': 'event', 'search': app.request.query.get("search") }) }}">
+                                    <span class="name">Мероприятия</span>
+                                    <span class="count">{{ countRows.event }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
